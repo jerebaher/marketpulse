@@ -13,8 +13,8 @@ dependencies {
     implementation libs.spring.boot.starter.web
     implementation libs.spring.boot.starter.data.jpa
     implementation libs.spring.boot.starter.jersey
-    implementation libs.spring.kafka
-    implementation libs.spring.kafka.test
+    implementation libs.spring.boot.kafka
+    implementation libs.spring.boot.kafka.test
     implementation libs.jersey.server
     implementation libs.jersey.media.json.jackson
     implementation libs.jackson.databind
