@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.project'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation libs.spring.boot.starter.web
+    implementation libs.spring.kafka
+    testImplementation libs.junit
+}

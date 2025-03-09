@@ -1,0 +1,17 @@
+rootProject.name = 'marketpulse'
+
+include 'price-collection-service'
+include 'data-processor-service'
+include 'control-panel-service'
+
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    versionCatalogs {
+        libs {
+            from(files(".gradle/libs.versions.toml"))
+        }
+    }
+}
