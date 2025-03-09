@@ -42,7 +42,7 @@ public class StockPriceServiceTest {
         timeSeriesMap.put(latestTimestamp, latestData);
         validTimeSeriesData.put("Time Series (5min)", timeSeriesMap);
 
-        when(alphaVantageClient.getStockPrice(symbol)).thenReturn(validTimeSeriesData);
+        when(alphaVantageClient.getStockData(symbol)).thenReturn(validTimeSeriesData);
 
         StockPriceResponse response = stockPriceService.getStockPrice(symbol);
 
@@ -59,7 +59,7 @@ public class StockPriceServiceTest {
         Map<String, Object> invalidData = new HashMap<>();
         invalidData.put("Meta Data", new HashMap<>());
 
-        when(alphaVantageClient.getStockPrice(symbol)).thenReturn(invalidData);
+        when(alphaVantageClient.getStockData(symbol)).thenReturn(invalidData);
 
         StockPriceResponse response = stockPriceService.getStockPrice(symbol);
 
@@ -73,7 +73,7 @@ public class StockPriceServiceTest {
     void testGetStockPriceApiException() {
         final String symbol = "IBM";
 
-        when(alphaVantageClient.getStockPrice(symbol)).thenThrow(new RuntimeException("API error"));
+        when(alphaVantageClient.getStockData(symbol)).thenThrow(new RuntimeException("API error"));
 
         StockPriceResponse response = stockPriceService.getStockPrice(symbol);
 

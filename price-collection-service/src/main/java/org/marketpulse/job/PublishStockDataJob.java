@@ -2,9 +2,7 @@ package org.marketpulse.job;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.marketpulse.stock.model.StockPriceResponse;
-import org.marketpulse.stock.publisher.StockPricePublisher;
-import org.marketpulse.stock.service.StockPriceService;
+import org.marketpulse.stock.publisher.StockDataPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -13,13 +11,11 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class PublishStockDataJob {
 
-    private final StockPriceService stockPriceService;
-    private final StockPricePublisher stockPricePublisher;
+    private final StockDataPublisher stockDataPublisher;
 
     @Scheduled(cron = "0 0 * * * *")
-    public void getStockPrice() {
+    public void publishStockData() {
         log.info("Getting stock price from alpha-vantage API...");
-        StockPriceResponse response = stockPriceService.getStockPrice("AAPL");
-        stockPricePublisher.publishStockPrice(response);
+        stockDataPublisher.publishStockData();
     }
 }

@@ -18,5 +18,6 @@ dependencies {
     implementation libs.jersey.server
     implementation libs.jersey.media.json.jackson
     implementation libs.jackson.databind
-    testImplementation libs.junit
+    implementation libs.mapstruct
+    annotationProcessor libs.mapstruct.processor
 }

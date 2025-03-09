@@ -19,7 +19,7 @@ public class StockPriceService {
 
     public StockPriceResponse getStockPrice(String symbol) {
         try {
-            Map<String, Object> stockData = alphaVantageClient.getStockPrice(symbol);
+            Map<String, Object> stockData = alphaVantageClient.getStockData(symbol);
             StockPriceResponse stockPriceResponse = mapToStockPriceResponse(symbol, stockData);
 
             return stockPriceResponse;

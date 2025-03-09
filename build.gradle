@@ -30,6 +30,11 @@ subprojects {
         annotationProcessor libs.lombok
         developmentOnly libs.devtools
         testImplementation libs.spring.boot.starter.test
+        testImplementation libs.junit
+    }
+
+    test {
+        useJUnitPlatform()
     }
 
     configurations {

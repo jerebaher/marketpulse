@@ -17,7 +17,7 @@ public class AlphaVantageClient {
         this.restTemplate = new RestTemplate();
     }
 
-    public Map<String, Object> getStockPrice(String symbol) {
+    public Map<String, Object> getStockData(String symbol) {
         String url = String.format("%s?function=TIME_SERIES_INTRADAY&symbol=%s&interval=5min&apikey=%s",
                 config.getBaseUrl(), symbol, config.getApiKey());
 
