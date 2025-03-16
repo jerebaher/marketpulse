@@ -1,4 +1,4 @@
-package org.marketpulse.consumer;
+package org.marketpulse.stockdata.messaging;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,15 +12,10 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class StockDataConsumer {
 
-    private final MessageProcessor messageProcessor;
+    private final StockDataProcessor stockDataProcessor;
 
     @KafkaListener(topics = "stock-prices", groupId = "data-processor-group")
     public void getStockData(ConsumerRecord<String, String> record) {
-        String key = record.key();
-        String value = record.value();
-
-        log.info("{} : {}", key, value);
-
-        messageProcessor.processMessage(value);
+        stockDataProcessor.processMessage(record.value());
     }
 }

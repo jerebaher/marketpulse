@@ -1,4 +1,4 @@
-package org.marketpulse.consumer;
+package org.marketpulse.stockdata.messaging;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -9,7 +9,7 @@ import java.util.Deque;
 
 @Component
 @Slf4j
-public class MessageProcessor {
+public class StockDataProcessor {
 
     private final Deque<Double> priceQueue = new ArrayDeque<>();
 
@@ -33,8 +33,6 @@ public class MessageProcessor {
 
 
     private double extractPriceFromMessage(String message) {
-        // Ejemplo básico de parseo (ajusta según el formato real del mensaje)
-        // Supongamos que el mensaje es: {"symbol": "AAPL", "price": 150.5}
         String priceStr = message.replaceAll(".*\"price\":\\s*(\\d+\\.?\\d*).*", "$1");
         return Double.parseDouble(priceStr);
     }

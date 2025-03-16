@@ -21,7 +21,6 @@ public class StockDataPublisher {
 
     @Value(value = "${kafka.topic.stock-prices}")
     private String kafkaTopicStockPrices;
-    private final String SYMBOL = "AAPL";
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
     private final AlphaVantageClient alphaVantageClient;
@@ -37,10 +36,10 @@ public class StockDataPublisher {
         this.objectMapper = objectMapper;
     }
 
-    public void publishStockData() {
+    public void publishStockData(String symbol) {
         log.info("Publishing stock price to kafka topic '{}'", kafkaTopicStockPrices);
         try {
-            Map<String, Object> response = alphaVantageClient.getStockData(SYMBOL);
+            Map<String, Object> response = alphaVantageClient.getStockData(symbol);
             StockData stockData = stockDataMapper.toStockData(response);
             String stockDataJson = objectMapper.writeValueAsString(stockData);
 
@@ -51,5 +50,10 @@ public class StockDataPublisher {
             log.error("Error in serialization data: {}", e.getMessage());
             throw new StockPricePublisherException("Error in serialization data", e);
         }
+    }
+
+    public void publishTestStockData() {
+        final String symbol = "AAPL";
+        publishStockData(symbol);
     }
 }

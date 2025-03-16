@@ -49,7 +49,7 @@ public class StockDataPublisherTest {
     void publishStockDataSuccess() {
         when(alphaVantageClient.getStockData(any())).thenReturn(mockStockData());
 
-        stockDataPublisher.publishStockData();
+        stockDataPublisher.publishTestStockData();
 
         verify(kafkaTemplate).send(
                 eq("test-stock-prices"),
@@ -63,7 +63,7 @@ public class StockDataPublisherTest {
         doThrow(JsonProcessingException.class).when(objectMapper).writeValueAsString(any(StockData.class));
 
         StockPricePublisherException exception =
-                assertThrows(StockPricePublisherException.class, () -> stockDataPublisher.publishStockData());
+                assertThrows(StockPricePublisherException.class, () -> stockDataPublisher.publishTestStockData());
 
         assertEquals("Error in serialization data", exception.getMessage());
         verifyNoInteractions(kafkaTemplate);
