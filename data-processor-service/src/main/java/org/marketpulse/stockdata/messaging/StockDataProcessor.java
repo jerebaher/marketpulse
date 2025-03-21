@@ -1,7 +1,11 @@
 package org.marketpulse.stockdata.messaging;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.marketpulse.common.exception.KafkaMessageException;
+import org.marketpulse.stockdata.model.StockData;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayDeque;
@@ -9,35 +13,34 @@ import java.util.Deque;
 
 @Component
 @Slf4j
+@AllArgsConstructor
 public class StockDataProcessor {
 
     private final Deque<Double> priceQueue = new ArrayDeque<>();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public void processMessage(String message) {
         try {
-            double price = extractPriceFromMessage(message);
+            var stockData = objectMapper.readValue(message, StockData.class);
+            var price = stockData.getClose().doubleValue();
+            var symbol = stockData.getMetadata().getSymbol();
 
-            addPrice(price);
+            enqueuePrice(price);
 
-            double movingAverage = calculateMovingAverage();
-            log.info("Precio actual: {}, Promedio móvil: {}", price, movingAverage);
+            var movingAverage = calculateMovingAverage();
+            log.info("Ticker: {}, current price: {}, moving average: {}", symbol, price, movingAverage);
 
             if (price > movingAverage * 1.05) {
                 log.warn("¡Alerta! El precio supera en un 5% el promedio móvil.");
             }
 
         } catch (Exception e) {
-            log.error("Error procesando el mensaje: {}", message, e);
+            log.error("Error processing message {}", message);
+            throw new KafkaMessageException("Kafka message no valid. Please, look out for bad format messages.", e);
         }
     }
 
-
-    private double extractPriceFromMessage(String message) {
-        String priceStr = message.replaceAll(".*\"price\":\\s*(\\d+\\.?\\d*).*", "$1");
-        return Double.parseDouble(priceStr);
-    }
-
-    private void addPrice(double price) {
+    private void enqueuePrice(double price) {
         int movingAverageWindow = 5;
         if (priceQueue.size() >= movingAverageWindow) {
             priceQueue.pollFirst();
