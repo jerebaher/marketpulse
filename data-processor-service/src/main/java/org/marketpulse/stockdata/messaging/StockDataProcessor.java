@@ -31,7 +31,7 @@ public class StockDataProcessor {
             log.info("Ticker: {}, current price: {}, moving average: {}", symbol, price, movingAverage);
 
             if (price > movingAverage * 1.05) {
-                log.warn("¡Alerta! El precio supera en un 5% el promedio móvil.");
+                log.warn("Price is above moving average threshold. Moving average is {}", movingAverage);
             }
 
         } catch (Exception e) {
