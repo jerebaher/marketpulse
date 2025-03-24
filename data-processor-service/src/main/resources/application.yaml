@@ -11,6 +11,7 @@ spring:
     show-sql: true
     properties:
       hibernate:
+        default_schema: marketpulse
         format_sql: true
 
   kafka:

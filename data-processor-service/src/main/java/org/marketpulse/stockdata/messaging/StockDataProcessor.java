@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.marketpulse.common.exception.KafkaMessageException;
 import org.marketpulse.stockdata.model.StockData;
+import org.marketpulse.stockdata.util.MovingAverageCalculator;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayDeque;
@@ -27,7 +28,7 @@ public class StockDataProcessor {
 
             enqueuePrice(price);
 
-            var movingAverage = calculateMovingAverage();
+            var movingAverage = MovingAverageCalculator.calculateMovingAverage(priceQueue);
             log.info("Ticker: {}, current price: {}, moving average: {}", symbol, price, movingAverage);
 
             if (price > movingAverage * 1.05) {
@@ -46,9 +47,5 @@ public class StockDataProcessor {
             priceQueue.pollFirst();
         }
         priceQueue.addLast(price);
-    }
-
-    private double calculateMovingAverage() {
-        return priceQueue.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
     }
 }
