@@ -30,4 +30,16 @@ public class StockData {
 
     @JsonDeserialize(using = BigDecimalDeserializer.class)
     private BigDecimal volume;
+
+    public String getSymbol() {
+        return this.metadata.getSymbol();
+    }
+
+    public String getInformation() {
+        return this.metadata.getInformation();
+    }
+
+    public String getTimestamp() {
+        return this.metadata.getTimestamp();
+    }
 }

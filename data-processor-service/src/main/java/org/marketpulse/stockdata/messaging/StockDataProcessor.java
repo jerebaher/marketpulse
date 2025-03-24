@@ -23,7 +23,7 @@ public class StockDataProcessor {
         try {
             var stockData = objectMapper.readValue(message, StockData.class);
             var price = stockData.getClose().doubleValue();
-            var symbol = stockData.getMetadata().getSymbol();
+            var symbol = stockData.getSymbol();
 
             enqueuePrice(price);
 
