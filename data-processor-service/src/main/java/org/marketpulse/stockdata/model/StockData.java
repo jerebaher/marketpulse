@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.deser.std.NumberDeserializers.BigDecimalDe
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -39,7 +40,7 @@ public class StockData {
         return this.metadata.getInformation();
     }
 
-    public String getTimestamp() {
+    public Instant getTimestamp() {
         return this.metadata.getTimestamp();
     }
 }

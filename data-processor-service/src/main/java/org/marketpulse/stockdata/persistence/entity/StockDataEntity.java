@@ -40,4 +40,16 @@ public class StockDataEntity {
             metadata = new StockDataMetadataEntity();
         }
     }
+
+    public String getSymbol() {
+        return this.metadata.getSymbol();
+    }
+
+    public String getInformation() {
+        return this.metadata.getInformation();
+    }
+
+    public String getTimestamp() {
+        return this.metadata.getTimestamp();
+    }
 }
