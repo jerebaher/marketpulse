@@ -2,6 +2,8 @@ package org.marketpulse.stockdata.model;
 
 import lombok.*;
 
+import java.time.Instant;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -12,5 +14,5 @@ public class StockDataMetadata {
 
     private String information;
     private String symbol;
-    private String timestamp;
+    private Instant timestamp;
 }

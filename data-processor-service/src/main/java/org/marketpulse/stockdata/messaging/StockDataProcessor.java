@@ -35,6 +35,7 @@ public class StockDataProcessor {
                 log.warn("Price is above moving average threshold. Moving average is {}", movingAverage);
             }
 
+
         } catch (Exception e) {
             log.error("Error processing message {}", message);
             throw new KafkaMessageException("Kafka message no valid. Please, look out for bad format messages.", e);
