@@ -6,7 +6,6 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "stock_data")
 @Data
 @Builder
 @NoArgsConstructor
@@ -16,7 +15,7 @@ public class StockDataEntity {
     @Id
     private Long id;
 
-    @OneToOne(mappedBy = "stockData", cascade = CascadeType.ALL, optional = false)
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
     private StockDataMetadataEntity metadata;
 
     @Column

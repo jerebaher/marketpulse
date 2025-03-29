@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "stock_data")
 @Data
 @Builder
 @NoArgsConstructor
@@ -27,8 +26,4 @@ public class StockDataMetadataEntity {
 
     @Column
     private String timestamp;
-
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "stock_data_id")
-    private StockDataEntity stockData;
 }
