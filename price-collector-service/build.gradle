@@ -2,8 +2,8 @@ plugins {
     id 'java'
 }
 
-group = 'org.project'
-version = '0.0.1-SNAPSHOT'
+group = 'com.marketpulse'
+version = '1.0.0'
 
 repositories {
     mavenCentral()

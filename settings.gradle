@@ -1,8 +1,8 @@
 rootProject.name = 'marketpulse'
 
-include 'price-collection-service'
 include 'data-processor-service'
 include 'control-panel-service'
+include 'price-collector-service'
 
 dependencyResolutionManagement {
     repositories {
