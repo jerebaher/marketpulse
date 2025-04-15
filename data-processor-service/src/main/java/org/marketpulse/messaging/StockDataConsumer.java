@@ -1,32 +1,36 @@
-package org.marketpulse.stockdata.messaging;
+package org.marketpulse.messaging;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.marketpulse.common.exception.KafkaMessageException;
 import org.marketpulse.stockdata.mapper.StockDataMapper;
 import org.marketpulse.stockdata.model.StockData;
 import org.marketpulse.stockdata.persistence.entity.StockDataEntity;
 import org.marketpulse.stockdata.service.StockDataService;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
 @Component
+@RequiredArgsConstructor
 @Slf4j
-@AllArgsConstructor
-public class StockDataProcessor {
+public class StockDataConsumer {
 
     private final Deque<Double> priceQueue = new ArrayDeque<>();
-    private final ObjectMapper objectMapper = new ObjectMapper();
     private final StockDataService stockDataService;
     private final StockDataMapper stockDataMapper;
 
-    public void processMessage(String message) {
+    @KafkaListener(topics = "stock-prices", groupId = "data-processor-group", containerFactory = "stockDataKafkaListenerContainerFactory")
+    public void getStockData(ConsumerRecord<String, StockData> record) {
+        this.processMessage(record.value());
+    }
+
+    private void processMessage(StockData stockData) {
         try {
-            var stockData = objectMapper.readValue(message, StockData.class);
             var price = stockData.getClose().doubleValue();
             var symbol = stockData.getSymbol();
 
@@ -43,7 +47,7 @@ public class StockDataProcessor {
 
             stockDataService.save(entity);
         } catch (Exception e) {
-            log.error("Error processing message {}", message);
+            log.error("Error processing message {}", stockData);
             throw new KafkaMessageException("Kafka message no valid. Please, look out for bad format messages.", e);
         }
     }

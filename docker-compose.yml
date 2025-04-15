@@ -14,6 +14,7 @@ services:
     image: confluentinc/cp-kafka:latest
     depends_on:
       - zookeeper
+    restart: on-failure
     ports:
       - "9092:9092"
     environment:
